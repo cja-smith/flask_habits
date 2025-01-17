@@ -14,14 +14,3 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
-
-class Habit(db.Model):
-    id = db.Column(db.integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    created = db.Column(db.DateTime)
-    modified = db.Column(db.DateTime)
-    days_between_habit = db.Column(db.Integer, nullable=False)
-    last_completed = db.Column(db.DateTime)
-
-    def __repr__(self):
-        return f'{self.name}'
