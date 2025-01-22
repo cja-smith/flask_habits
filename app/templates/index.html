@@ -4,12 +4,15 @@
     <title>Habit Tracker</title>
 </head>
 <body>
-    <h1>My Habits</h1>
-    <ul>
+    <h1>Habit Tracker</h1>
+    {% if habits %}
+        <ul>
         {% for habit in habits %}
-            <li>{{ habit.name }} - {{ habit.description }}</li>
+            <li>{{ habit.name }}</li>
         {% endfor %}
-    </ul>
-    <a href="{{ url_for('add_habit') }}">Add a New Habit</a>
+        </ul>
+    {% else %}
+        <p>No habits yet!</p>
+    {% endif %}
 </body>
 </html>
