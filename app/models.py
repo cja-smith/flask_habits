@@ -1,11 +1,11 @@
 from datetime import datetime,timezone
-from app.__init__ import db
+from app import db
 
 class Habit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text)
-    date_created = db.Column(db.Date, default=datetime.date(datetime.now(timezone.utc)))
+    date_created = db.Column(db.Date, default=datetime.now(timezone.utc).date())
     days_between_habit = db.Column(db.Integer, nullable=False, default=1)
     dates = db.relationship('DateTracker', backref='habit', lazy=True)
 
