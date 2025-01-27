@@ -9,7 +9,7 @@ class Habit(db.Model):
     description = db.Column(db.Text, default='')
     date_created = db.Column(db.Date, default=datetime.now(timezone.utc).date())
     days_between_habit = db.Column(db.Integer, nullable=False, default=1)
-    dates = db.relationship('DateTracker', backref='habit', lazy=True)
+    dates = db.relationship('DateTracker', backref='habit', lazy=True, cascade='all, delete')
 
     def __repr__(self):
         return f'{self.name}'

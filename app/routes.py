@@ -80,3 +80,16 @@ def edit_habit(habit_id):
         return redirect(url_for('index'))
 
     return render_template('edit_habit.html', habit=habit)
+
+@app.route('/delete/<int:habit_id>', methods=['POST'])
+def delete_habit(habit_id):
+    habit = Habit.query.get_or_404(habit_id)
+    try:
+        db.session.delete(habit)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        flash(f"Error deleting habit: {str(e)}", "error")
+        return render_template('edit_habit.html', habit=habit)
+
+    return redirect(url_for('index'))
