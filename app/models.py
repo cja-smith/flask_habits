@@ -8,6 +8,7 @@ class Habit(db.Model):
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, default='')
     date_created = db.Column(db.Date, default=datetime.now(timezone.utc).date())
+    start_date = db.Column(db.Date, nullable=False, default=datetime.now(timezone.utc).date())
     days_between_habit = db.Column(db.Integer, nullable=False, default=1)
     dates = db.relationship('DateTracker', backref='habit', lazy=True, cascade='all, delete')
 

@@ -12,6 +12,9 @@
         <label for="description">Description:</label>
         <textarea id="description" name="description">{{ habit.description }}</textarea><br>
 
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ today }}" />
+
         <label for="days_between_habit">Days Between Habit:</label>
         <input type="number" id="days_between_habit" name="days_between_habit" value="{{ habit.days_between_habit }}" required><br>
 

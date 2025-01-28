@@ -1,8 +1,10 @@
+from time import strptime
+
 from flask import render_template, redirect, url_for, request, flash
 from app import app, db
 from app.models import Habit, DateTracker
 from app.utils import validate_habit_form
-from datetime import datetime
+from datetime import datetime, date
 
 
 @app.route('/')
@@ -12,13 +14,19 @@ def index():
 
 @app.route('/add_habit', methods=['GET', 'POST'])
 def add_habit():
+    today = date.today().strftime('%Y-%m-%d')
+
     if request.method == 'POST':
         name = request.form['name']
         description = request.form['description']
+        start_date = request.form['start_date']
         days_between_habit = request.form['days_between_habit']
 
         # Validate input
-        error = validate_habit_form(name=name,description=description,days_between_habit=days_between_habit)
+        error = validate_habit_form(name=name,
+                                    description=description,
+                                    days_between_habit=days_between_habit,
+                                    start_date=start_date)
 
         if error:
             flash(error)
@@ -28,6 +36,7 @@ def add_habit():
         new_habit = Habit(
             name=name,
             description=description,
+            start_date=datetime.strptime(start_date, '%Y-%m-%d').date(),
             days_between_habit=int(days_between_habit)
         )
 
@@ -48,19 +57,24 @@ def add_habit():
 
         return redirect(url_for('index'))
 
-    return render_template('add_habit.html')
+    return render_template('add_habit.html', today=today)
 
 @app.route('/edit/<int:habit_id>', methods=['GET', 'POST'])
 def edit_habit(habit_id):
+    today = date.today().strftime('%Y-%m-%d')
     habit = Habit.query.get_or_404(habit_id)
 
     if request.method == 'POST':
         name = request.form['name']
         description = request.form['description']
+        start_date = request.form['start_date']
         days_between_habit = request.form['days_between_habit']
 
         # Validate input
-        error = validate_habit_form(name=name, description=description,days_between_habit=days_between_habit)
+        error = validate_habit_form(name=name,
+                                    description=description,
+                                    days_between_habit=days_between_habit,
+                                    start_date=start_date)
 
         if error:
             flash(error)
@@ -68,6 +82,7 @@ def edit_habit(habit_id):
 
         habit.name = name
         habit.description = description
+        habit.start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
         habit.days_between_habit = int(days_between_habit)
 
         # Commit to database
@@ -79,7 +94,7 @@ def edit_habit(habit_id):
 
         return redirect(url_for('index'))
 
-    return render_template('edit_habit.html', habit=habit)
+    return render_template('edit_habit.html', habit=habit, today=today)
 
 @app.route('/delete/<int:habit_id>', methods=['POST'])
 def delete_habit(habit_id):
