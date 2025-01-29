@@ -1,8 +1,9 @@
 from flask import render_template, redirect, url_for, request, flash
+import jsonify
+from datetime import datetime, date, timedelta
 from app import app, db
 from app.models import Habit, DateTracker
-from app.utils import validate_habit_form
-from datetime import datetime, date, timedelta
+from app.utils import validate_habit_form, validate_api_habit_form
 
 
 @app.route('/')
@@ -89,6 +90,60 @@ def add_habit():
         return redirect(url_for('index'))
 
     return render_template('add_habit.html', today=today)
+
+''' Turning these routes into API '''
+@app.route('/api/habits', methods=['POST'])
+def add_habit():
+
+    if request.method == 'POST':
+        habit = request.get_json()
+        name = habit.get('name')
+        description = habit.get('description')
+        start_date = habit.get('start_date')
+        days_between_habit = habit.get('days_between_habit')
+
+        # Validate input
+        error = validate_api_habit_form(name=name,
+                                    description=description,
+                                    days_between_habit=days_between_habit,
+                                    start_date=start_date)
+
+        if error:
+            return {"error": error}, 400
+
+        # Create new habit and date entry
+        new_habit = Habit(
+            name=name,
+            description=description,
+            start_date=datetime.strptime(start_date, '%Y-%m-%d').date(),
+            days_between_habit=int(days_between_habit)
+        )
+
+        new_entry = DateTracker(
+            date=datetime.today().date(),
+            habit=new_habit,
+            completed=False
+        )
+
+        # Add to database
+        try:
+            db.session.add(new_habit)
+            db.session.add(new_entry)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            return {'Error':str(e)}, 500
+
+        return {
+            "id": new_habit.id,
+            "name": new_habit.name,
+            "start_date": start_date.isoformat()
+                }, 201
+
+@app.route('/api/habits', methods=['GET'])
+def display_habits():
+    habits = Habit.query.all()
+    return jsonify([habit.to_dict() for habit in habits])
 
 @app.route('/edit/<int:habit_id>', methods=['GET', 'POST'])
 def edit_habit(habit_id):
