@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Habit Tracker: Week View </title>
+</head>
+<body>
+    <h1>Week Commencing {{ str_start_of_week }}</h1>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Habit</th>
+            {% for day in week_dates %}
+                <th>{{ day.strftime('%a %d/%m') }}</th>
+            {% endfor %}
+        </tr>
+      </thead>
+        <tbody>
+        {% for habit in habits %}
+        <tr>
+            <td>{{ habit.name }} </td>
+
+            {% for day in week_dates %}
+                <td>
+                    {% if is_due(habit, day) %}
+                    <input type="checkbox"
+                           name="habit_{{ habit.id }}_{{ day.isoformat() }}"
+                           {{ 'checked' if completions.get((habit.id, day)) }}>
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+    </table>
+
+</body>
+</html>

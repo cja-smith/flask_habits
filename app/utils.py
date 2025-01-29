@@ -5,6 +5,13 @@ def get_week_dates():
     start_of_week = today - timedelta(days=today.weekday())
     return [start_of_week + timedelta(days=i) for i in range(7)]
 
+def is_due(habit, date):
+
+    if habit.start_date > date:
+        return False
+    elif (date - habit.start_date).days % habit.days_between_habit == 0:
+        return True
+
 def validate_habit_form(name, description, start_date, days_between_habit):
     # Validate input
     if not name:

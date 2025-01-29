@@ -1,16 +1,47 @@
-from time import strptime
-
 from flask import render_template, redirect, url_for, request, flash
 from app import app, db
 from app.models import Habit, DateTracker
 from app.utils import validate_habit_form
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
 
 @app.route('/')
 def index():
     habits = Habit.query.all()
     return render_template('index.html', habits=habits)
+
+
+# Add form submission logic for checkbox updates !
+@app.route('/week', methods=['GET', 'POST'])
+def week():
+    # Calculate start of week (Monday)
+    today = date.today()
+    start_of_week = today - timedelta(days=today.weekday())
+
+    week_dates = [start_of_week + timedelta(days=i) for i in range(7)]
+
+    habits = Habit.query.all()
+
+    def is_due(habit, _date):
+
+        if habit.start_date > _date:
+            return False
+        elif (_date - habit.start_date).days % habit.days_between_habit == 0:
+            return True
+
+    completions = {(tracker.habit_id, tracker.date):
+                       tracker.completed
+                   for tracker in DateTracker.query.filter(
+            DateTracker.date.between(week_dates[0], week_dates[-1])
+        ).all()}
+
+    return render_template('week.html',
+                           str_start_of_week=start_of_week.strftime('%m/%d/%Y'),
+                           week_dates=week_dates,
+                           habits=habits,
+                           completions=completions,
+                           is_due=is_due)
+
 
 @app.route('/add_habit', methods=['GET', 'POST'])
 def add_habit():

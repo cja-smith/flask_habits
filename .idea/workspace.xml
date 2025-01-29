@@ -7,10 +7,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a97a4551-1632-4c56-95ed-b4e109aafa20" name="Changes" comment="Added column to Habit DB, start_date&#10;Added start_date to add_habit.html and edit_habit.html and their routes.&#10;start_date does seem to get stuck on today's date. Need to investigate.">
+    <list default="true" id="a97a4551-1632-4c56-95ed-b4e109aafa20" name="Changes" comment="Added column to Habit DB, start_date&#10;Added start_date to add_habit.html and edit_habit.html and their routes.">
+      <change afterPath="$PROJECT_DIR$/app/templates/week.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/templates/edit_habit.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/templates/edit_habit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/routes.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/routes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -183,7 +185,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738023067108</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Added column to Habit DB, start_date&#10;Added start_date to add_habit.html and edit_habit.html and their routes.">
+      <option name="closed" value="true" />
+      <created>1738023692482</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1738023692482</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -205,7 +215,8 @@
     <MESSAGE value="Added edit function in routes.py&#10;Added form validation function in utils.py to avoid repeating code.&#10;Learning about flashes, need to edit htmls to implement them." />
     <MESSAGE value="Added POST route to delete habit (delete/&lt;habit_id&gt;)&#10;Configure SQLAlchemy cascade delete for automatic Datetracker cleanup&#10;Added 'Delete' button to edit_habit.html&#10;Added 'Add Habit' button to index.html" />
     <MESSAGE value="Added column to Habit DB, start_date&#10;Added start_date to add_habit.html and edit_habit.html and their routes.&#10;start_date does seem to get stuck on today's date. Need to investigate." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added column to Habit DB, start_date&#10;Added start_date to add_habit.html and edit_habit.html and their routes.&#10;start_date does seem to get stuck on today's date. Need to investigate." />
+    <MESSAGE value="Added column to Habit DB, start_date&#10;Added start_date to add_habit.html and edit_habit.html and their routes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added column to Habit DB, start_date&#10;Added start_date to add_habit.html and edit_habit.html and their routes." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

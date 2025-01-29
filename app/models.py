@@ -1,5 +1,4 @@
 from datetime import datetime,timezone
-from email.policy import default
 
 from app import db
 
